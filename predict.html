@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot de Prédictions Football - Calculs Mathématiques</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box p {
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .creator-info {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+        
+        .creator-info h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        
+        .creator-info p {
+            color: #0c5460;
+            line-height: 1.6;
+        }
+        
+        .creator-info strong {
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .team-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .team-section h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .form-help {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .match-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .match-row input {
+            flex: 1;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+        }
+        
+        .btn-add {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .btn-add:hover {
+            background: #218838;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .btn-predict {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-reset {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-reset:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .results {
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-card h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .result-card .score {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .result-card .probability {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+        
+        .secondary-prediction {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .secondary-prediction h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .secondary-prediction .score {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+        
+        .top-scores {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .top-scores h3 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+        
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .score-item .rank {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.2em;
+            min-width: 40px;
+        }
+        
+        .score-item .score-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .score-item .probability {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .outcome-predictions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .outcome-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .outcome-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .outcome-card .percentage {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stats-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .stats-section h3 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-item .label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item .value {
+            color: #333;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        
+        .methodology {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .methodology h3 {
+            color: #0c5460;
+            margin-bottom: 15px;
+        }
+        
+        .methodology ul {
+            list-style-position: inside;
+            color: #0c5460;
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                min-width: 100%;
+            }
+            
+            .result-card .score {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚽ Robot de Prédictions Football</h1>
+            <p>Analyse Mathématique Avancée - Algorithmes de Calcul</p>
+        </div>
+        
+        <div class="warning-box">
+            <h3>⚠️ MISE EN GARDE IMPORTANTE</h3>
+            <p><strong>CE ROBOT NE PEUT PAS ÊTRE VENDU, REDISTRIBUÉ OU COMMERCIALISÉ.</strong></p>
+            <p>Toute utilisation commerciale non autorisée est strictement interdite. Ce système est protégé par les droits d'auteur. L'utilisation est réservée exclusivement à des fins personnelles et éducatives.</p>
+        </div>
+        
+        <div class="creator-info">
+            <h3>👨‍💻 Informations du Créateur</h3>
+            <p><strong>Créateur :</strong> Jan Jan</p>
+            <p><strong>📱 Telegram / WhatsApp :</strong> +2250779683646</p>
+            <p>Pour toute question ou assistance technique, contactez le créateur via les coordonnées ci-dessus.</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section" id="inputForm">
+                <div class="team-section">
+                    <h3>🏠 Équipe à Domicile</h3>
+                    <div class="form-group">
+                        <label>Nom de l'équipe à domicile</label>
+                        <input type="text" id="homeTeam" placeholder="Ex: Paris Saint-Germain">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Forme récente (domicile) - Derniers matchs avec scores</label>
+                        <p class="form-help">Entrez les scores des derniers matchs à DOMICILE (format: buts marqués-buts encaissés)</p>
+                        <div id="homeMatches">
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 2-1" class="home-match">
+                            </div>
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 3-0" class="home-match">
+                            </div>
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 1-1" class="home-match">
+                            </div>
+                        </div>
+                        <button class="btn-add" onclick="addHomeMatch()">+ Ajouter un match</button>
+                    </div>
+                </div>
+                
+                <div class="team-section">
+                    <h3>✈️ Équipe à l'Extérieur</h3>
+                    <div class="form-group">
+                        <label>Nom de l'équipe à l'extérieur</label>
+                        <input type="text" id="awayTeam" placeholder="Ex: Olympique de Marseille">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Forme récente (extérieur) - Derniers matchs avec scores</label>
+                        <p class="form-help">Entrez les scores des derniers matchs à l'EXTÉRIEUR (format: buts marqués-buts encaissés)</p>
+                        <div id="awayMatches">
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 1-2" class="away-match">
+                            </div>
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 0-0" class="away-match">
+                            </div>
+                            <div class="match-row">
+                                <input type="text" placeholder="Ex: 2-2" class="away-match">
+                            </div>
+                        </div>
+                        <button class="btn-add" onclick="addAwayMatch()">+ Ajouter un match</button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-predict" onclick="calculatePrediction()">🔮 CALCULER LES PRÉDICTIONS</button>
+                    <button class="btn btn-reset" onclick="resetForm()">🔄 RÉINITIALISER</button>
+                </div>
+            </div>
+            
+            <div class="results" id="results">
+                <h2 style="color: #2a5298; margin-bottom: 30px; text-align: center; font-size: 2em;">📊 RÉSULTATS DE L'ANALYSE MATHÉMATIQUE</h2>
+                
+                <div class="result-card">
+                    <h2>🎯 PRÉDICTION PRINCIPALE</h2>
+                    <div class="score" id="mainPrediction">--</div>
+                    <div class="probability" id="mainProbability">--</div>
+                </div>
+                
+                <div class="secondary-prediction">
+                    <h3>🎲 PRÉDICTION SECONDAIRE</h3>
+                    <div class="score" id="secondaryPrediction">--</div>
+                    <div class="probability" id="secondaryProbability">--</div>
+                </div>
+                
+                <div class="top-scores">
+                    <h3>🏆 TOP 5 DES SCORES LES PLUS PROBABLES</h3>
+                    <div id="topScoresList"></div>
+                </div>
+                
+                <div class="stats-section">
+                    <h3>📈 PROBABILITÉS DES ISSUES</h3>
+                    <div class="outcome-predictions">
+                        <div class="outcome-card">
+                            <h4>🏠 Victoire Domicile</h4>
+                            <div class="percentage" id="homeWinProb">--</div>
+                        </div>
+                        <div class="outcome-card">
+                            <h4>🤝 Match Nul</h4>
+                            <div class="percentage" id="drawProb">--</div>
+                        </div>
+                        <div class="outcome-card">
+                            <h4>✈️ Victoire Extérieur</h4>
+                            <div class="percentage" id="awayWinProb">--</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <h3>📊 STATISTIQUES DÉTAILLÉES</h3>
+                    <div class="stats-grid" id="detailedStats"></div>
+                </div>
+                
+                <div class="methodology">
+                    <h3>🔬 Méthodologie de Calcul</h3>
+                    <ul>
+                        <li><strong>Distribution de Poisson</strong> : Modèle probabiliste pour prédire le nombre de buts</li>
+                        <li><strong>Moyennes pondérées</strong> : Matchs récents avec coefficients plus élevés</li>
+                        <li><strong>Facteur domicile/extérieur</strong> : Ajustement basé sur les performances locales</li>
+                        <li><strong>Analyse offensive/défensive</strong> : Comparaison des forces d'attaque et de défense</li>
+                        <li><strong>Matrice de probabilités</strong> : Calcul de toutes les combinaisons de scores possibles</li>
+                        <li><strong>Exclusion des xG</strong> : Calculs basés uniquement sur les résultats réels</li>
+                    </ul>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-back" onclick="backToForm()">⬅️ RETOUR</button>
+                    <button class="btn btn-reset" onclick="resetForm()">🔄 NOUVELLE PRÉDICTION</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour ajouter un match domicile
+        function addHomeMatch() {
+            const container = document.getElementById('homeMatches');
+            const newMatch = document.createElement('div');
+            newMatch.className = 'match-row';
+            newMatch.innerHTML = `
+                <input type="text" placeholder="Ex: 2-1" class="home-match">
+                <button class="btn-remove" onclick="removeMatch(this)">✖</button>
+            `;
+            container.appendChild(newMatch);
+        }
+        
+        // Fonction pour ajouter un match extérieur
+        function addAwayMatch() {
+            const container = document.getElementById('awayMatches');
+            const newMatch = document.createElement('div');
+            newMatch.className = 'match-row';
+            newMatch.innerHTML = `
+                <input type="text" placeholder="Ex: 1-2" class="away-match">
+                <button class="btn-remove" onclick="removeMatch(this)">✖</button>
+            `;
+            container.appendChild(newMatch);
+        }
+        
+        // Fonction pour supprimer un match
+        function removeMatch(btn) {
+            btn.parentElement.remove();
+        }
+        
+        // Fonction pour parser les scores
+        function parseMatches(selector) {
+            const inputs = document.querySelectorAll(selector);
+            const matches = [];
+            
+            inputs.forEach(input => {
+                const value = input.value.trim();
+                if (value && value.includes('-')) {
+                    const [scored, conceded] = value.split('-').map(s => parseInt(s.trim()));
+                    if (!isNaN(scored) && !isNaN(conceded)) {
+                        matches.push({ scored, conceded });
+                    }
+                }
+            });
+            
+            return matches;
+        }
+        
+        // Fonction factorielle pour la distribution de Poisson
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+        
+        // Distribution de Poisson
+        function poissonProbability(k, lambda) {
+            return (Math.pow(lambda, k) * Math.exp(-lambda)) / factorial(k);
+        }
+        
+        // Calculer les statistiques d'une équipe
+        function calculateTeamStats(matches, isHome) {
+            if (matches.length === 0) {
+                return {
+                    avgScored: 1.5,
+                    avgConceded: 1.5,
+                    form: 0.5
+                };
+            }
+            
+            // Moyennes pondérées (matchs récents ont plus de poids)
+            let totalScored = 0;
+            let totalConceded = 0;
+            let totalWeight = 0;
+            let points = 0;
+            
+            matches.forEach((match, index) => {
+                // Poids décroissant pour les matchs plus anciens
+                const weight = matches.length - index;
+                totalScored += match.scored * weight;
+                totalConceded += match.conceded * weight;
+                totalWeight += weight;
+                
+                // Calcul des points (victoire=3, nul=1, défaite=0)
+                if (match.scored > match.conceded) points += 3;
+                else if (match.scored === match.conceded) points += 1;
+            });
+            
+            const avgScored = totalScored / totalWeight;
+            const avgConceded = totalConceded / totalWeight;
+            const form = points / (matches.length * 3); // Forme entre 0 et 1
+            
+            // Facteur domicile/extérieur
+            const locationFactor = isHome ? 1.15 : 0.85;
+            
+            return {
+                avgScored: avgScored * locationFactor,
+                avgConceded: avgConceded / locationFactor,
+                form: form,
+                matches: matches.length
+            };
+        }
+        
+        // Calculer la matrice de probabilités
+        function calculateScoreMatrix(homeStats, awayStats) {
+            const maxGoals = 6;
+            const matrix = [];
+            
+            // Lambda pour la distribution de Poisson
+            const homeLambda = homeStats.avgScored * (1 + (homeStats.form - 0.5) * 0.3);
+            const awayLambda = awayStats.avgScored * (1 + (awayStats.form - 0.5) * 0.3);
+            
+            for (let homeGoals = 0; homeGoals <= maxGoals; homeGoals++) {
+                for (let awayGoals = 0; awayGoals <= maxGoals; awayGoals++) {
+                    const homeProb = poissonProbability(homeGoals, homeLambda);
+                    const awayProb = poissonProbability(awayGoals, awayLambda);
+                    const combinedProb = homeProb * awayProb;
+                    
+                    matrix.push({
+                        score: `${homeGoals}-${awayGoals}`,
+                        homeGoals,
+                        awayGoals,
+                        probability: combinedProb
+                    });
+                }
+            }
+            
+            // Trier par probabilité
+            matrix.sort((a, b) => b.probability - a.probability);
+            
+            return matrix;
+        }
+        
+        // Calculer les probabilités d'issues
+        function calculateOutcomes(matrix) {
+            let homeWin = 0;
+            let draw = 0;
+            let awayWin = 0;
+            
+            matrix.forEach(item => {
+                if (item.homeGoals > item.awayGoals) {
+                    homeWin += item.probability;
+                } else if (item.homeGoals === item.awayGoals) {
+                    draw += item.probability;
+                } else {
+                    awayWin += item.probability;
+                }
+            });
+            
+            const total = homeWin + draw + awayWin;
+            
+            return {
+                homeWin: (homeWin / total) * 100,
+                draw: (draw / total) * 100,
+                awayWin: (awayWin / total) * 100
+            };
+        }
+        
+        // Fonction principale de calcul
+        function calculatePrediction() {
+            // Récupérer les données
+            const homeTeam = document.getElementById('homeTeam').value.trim();
+            const awayTeam = document.getElementById('awayTeam').value.trim();
+            
+            if (!homeTeam || !awayTeam) {
+                alert('⚠️ Veuillez entrer les noms des deux équipes !');
+                return;
+            }
+            
+            const homeMatches = parseMatches('.home-match');
+            const awayMatches = parseMatches('.away-match');
+            
+            if (homeMatches.length === 0 || awayMatches.length === 0) {
+                alert('⚠️ Veuillez entrer au moins un match pour chaque équipe avec des scores valides (format: X-X) !');
+                return;
+            }
+            
+            // Calculer les statistiques
+            const homeStats = calculateTeamStats(homeMatches, true);
+            const awayStats = calculateTeamStats(awayMatches, false);
+            
+            // Calculer la matrice de scores
+            const scoreMatrix = calculateScoreMatrix(homeStats, awayStats);
+            
+            // Calculer les probabilités d'issues
+            const outcomes = calculateOutcomes(scoreMatrix);
+            
+            // Afficher les résultats
+            displayResults(homeTeam, awayTeam, scoreMatrix, outcomes, homeStats, awayStats);
+        }
+        
+        // Afficher les résultats
+        function displayResults(homeTeam, awayTeam, scoreMatrix, outcomes, homeStats, awayStats) {
+            // Prédiction principale
+            const mainPred = scoreMatrix[0];
+            document.getElementById('mainPrediction').textContent = mainPred.score;
+            document.getElementById('mainProbability').textContent = 
+                `Probabilité : ${(mainPred.probability * 100).toFixed(2)}%`;
+            
+            // Prédiction secondaire
+            const secondaryPred = scoreMatrix[1];
+            document.getElementById('secondaryPrediction').textContent = secondaryPred.score;
+            document.getElementById('secondaryProbability').textContent = 
+                `Probabilité : ${(secondaryPred.probability * 100).toFixed(2)}%`;
+            
+            // Top 5 des scores
+            const topScoresHTML = scoreMatrix.slice(0, 5).map((item, index) => `
+                <div class="score-item">
+                    <div class="rank">#${index + 1}</div>
+                    <div class="score-value">${item.score}</div>
+                    <div class="probability">${(item.probability * 100).toFixed(2)}%</div>
+                </div>
+            `).join('');
+            document.getElementById('topScoresList').innerHTML = topScoresHTML;
+            
+            // Probabilités d'issues
+            document.getElementById('homeWinProb').textContent = `${outcomes.homeWin.toFixed(1)}%`;
+            document.getElementById('drawProb').textContent = `${outcomes.draw.toFixed(1)}%`;
+            document.getElementById('awayWinProb').textContent = `${outcomes.awayWin.toFixed(1)}%`;
+            
+            // Statistiques détaillées
+            const statsHTML = `
+                <div class="stat-item">
+                    <div class="label">🏠 ${homeTeam} - Moy. buts marqués</div>
+                    <div class="value">${homeStats.avgScored.toFixed(2)}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">🏠 ${homeTeam} - Moy. buts encaissés</div>
+                    <div class="value">${homeStats.avgConceded.toFixed(2)}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">🏠 ${homeTeam} - Forme (0-100%)</div>
+                    <div class="value">${(homeStats.form * 100).toFixed(1)}%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">✈️ ${awayTeam} - Moy. buts marqués</div>
+                    <div class="value">${awayStats.avgScored.toFixed(2)}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">✈️ ${awayTeam} - Moy. buts encaissés</div>
+                    <div class="value">${awayStats.avgConceded.toFixed(2)}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">✈️ ${awayTeam} - Forme (0-100%)</div>
+                    <div class="value">${(awayStats.form * 100).toFixed(1)}%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">📊 Total matchs analysés (${homeTeam})</div>
+                    <div class="value">${homeStats.matches}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="label">📊 Total matchs analysés (${awayTeam})</div>
+                    <div class="value">${awayStats.matches}</div>
+                </div>
+            `;
+            document.getElementById('detailedStats').innerHTML = statsHTML;
+            
+            // Afficher la section résultats
+            document.getElementById('inputForm').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+            
+            // Scroll vers les résultats
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Retour au formulaire
+        function backToForm() {
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('inputForm').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Réinitialiser le formulaire
+        function resetForm() {
+            document.getElementById('homeTeam').value = '';
+            document.getElementById('awayTeam').value = '';
+            
+            // Réinitialiser les matchs domicile
+            const homeContainer = document.getElementById('homeMatches');
+            homeContainer.innerHTML = `
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 2-1" class="home-match">
+                </div>
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 3-0" class="home-match">
+                </div>
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 1-1" class="home-match">
+                </div>
+            `;
+            
+            // Réinitialiser les matchs extérieur
+            const awayContainer = document.getElementById('awayMatches');
+            awayContainer.innerHTML = `
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 1-2" class="away-match">
+                </div>
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 0-0" class="away-match">
+                </div>
+                <div class="match-row">
+                    <input type="text" placeholder="Ex: 2-2" class="away-match">
+                </div>
+            `;
+            
+            // Retour au formulaire
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('inputForm').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
