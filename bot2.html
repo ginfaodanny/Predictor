@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application sur Téléphone Android</title>
+    <style>
+        body {
+            background-color: #e9ebee;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            margin: 0;
+        }
+
+        .phone-wrapper {
+            transform: scale(0.95);
+            transform-origin: center center;
+        }
+
+        .phone {
+            position: relative;
+            width: 414px;
+            height: 896px;
+            background: #111;
+            border: 5px solid #333;
+            border-radius: 60px;
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.4), 
+                        inset 0 0 0 2px #222,
+                        inset 0 0 0 7px #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-screen {
+            position: relative;
+            width: 390px;
+            height: 844px;
+            background: #fff;
+            border-radius: 45px;
+            overflow: hidden;
+        }
+
+        .phone-screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 210px;
+            height: 35px;
+            background: #111;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-notch::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-150%);
+            width: 50px;
+            height: 8px;
+            background: #2d2d2d;
+            border-radius: 4px;
+        }
+
+        .phone-notch::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(100%);
+            width: 10px;
+            height: 10px;
+            background: #2d2d2d;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="phone-wrapper">
+    <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+            <iframe srcdoc="
+<!DOCTYPE html>
+<html lang=&quot;fr&quot;>
+<head>
+    <meta charset=&quot;UTF-8&quot;>
+    <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+    <title>FC24 4X4 ENGLAND CHAMPIONSHIP - Prédicteur IA Avancé ⚽</title>
+    <link href=&quot;https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css&quot; rel=&quot;stylesheet&quot;>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css&quot;>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/chart.js&quot;></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .team-card.selected {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.4);
+        }
+        
+        .prediction-container {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(250, 112, 154, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(250, 112, 154, 0.8); }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .rotate {
+            animation: rotate 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .tab-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .ai-brain {
+            animation: brain-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes brain-pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        .probability-bar {
+            height: 8px;
+            border-radius: 10px;
+            transition: all 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .probability-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .stats-metric {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            padding: 12px;
+            margin: 6px;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stats-metric:hover {
+            transform: translateY(-3px);
+        }
+        
+        .prediction-score {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 15px;
+            animation: score-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes score-glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(17, 153, 142, 0.6); }
+            50% { box-shadow: 0 0 50px rgba(56, 239, 125, 0.8); }
+        }
+        
+        .ai-confidence {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 25px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .neural-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: radial-gradient(circle at 20% 80%, #ffffff 2px, transparent 2px),
+                              radial-gradient(circle at 80% 20%, #ffffff 2px, transparent 2px),
+                              radial-gradient(circle at 40% 40%, #ffffff 2px, transparent 2px);
+            background-size: 50px 50px;
+            animation: neural-flow 4s linear infinite;
+        }
+        
+        @keyframes neural-flow {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+        
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 2s linear infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        .odds-input {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 10px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .odds-input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+            outline: none;
+        }
+        
+        .match-vs {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: white;
+            animation: vs-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes vs-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .odds-impact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 10px;
+            margin: 10px 0;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .score-breakdown {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            color: white;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+
+        .market-analysis {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+    </style>
+</head>
+<body class=&quot;gradient-bg min-h-screen&quot;>
+    <div class=&quot;container mx-auto px-2 py-4&quot;>
+        <!-- Enhanced Header -->
+        <div class=&quot;text-center mb-6&quot;>
+            <h1 class=&quot;text-3xl font-bold text-white mb-2&quot;>
+                <i class=&quot;fas fa-brain ai-brain mr-2&quot;></i>
+                FC24 4X4 ENGLAND CHAMPIONSHIP
+            </h1>
+            <p class=&quot;text-white text-md opacity-90 mb-2&quot;>IA Avancée & Cotes Bookmaker</p>
+        </div>
+
+        <!-- Enhanced Tabs -->
+        <div class=&quot;flex justify-center mb-6&quot;>
+            <div class=&quot;glass-effect rounded-full p-1 flex space-x-1 text-xs&quot;>
+                <button id=&quot;tab-predict&quot; class=&quot;tab-active px-3 py-2 rounded-full font-semibold transition-all duration-300&quot;>
+                    <i class=&quot;fas fa-robot&quot;></i><span class=&quot;hidden sm:inline ml-1&quot;>Prédiction</span>
+                </button>
+                <button id=&quot;tab-analysis&quot; class=&quot;px-3 py-2 rounded-full font-semibold text-white hover:bg-white hover:bg-opacity-20 transition-all duration-300&quot;>
+                    <i class=&quot;fas fa-chart-area&quot;></i><span class=&quot;hidden sm:inline ml-1&quot;>Analyse</span>
+                </button>
+                <button id=&quot;tab-stats&quot; class=&quot;px-3 py-2 rounded-full font-semibold text-white hover:bg-white hover:bg-opacity-20 transition-all duration-300&quot;>
+                    <i class=&quot;fas fa-trophy&quot;></i><span class=&quot;hidden sm:inline ml-1&quot;>Stats</span>
+                </button>
+                <button id=&quot;tab-history&quot; class=&quot;px-3 py-2 rounded-full font-semibold text-white hover:bg-white hover:bg-opacity-20 transition-all duration-300&quot;>
+                    <i class=&quot;fas fa-history&quot;></i><span class=&quot;hidden sm:inline ml-1&quot;>Historique</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Prediction Tab -->
+        <div id=&quot;content-predict&quot; class=&quot;tab-content&quot;>
+            <div class=&quot;grid grid-cols-1 gap-6&quot;>
+                <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                    <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                        <i class=&quot;fas fa-users mr-2&quot;></i>Configuration du Match
+                    </h2>
+                    
+                    <div class=&quot;grid grid-cols-2 gap-4 mb-4&quot;>
+                        <div>
+                            <h3 class=&quot;text-white font-semibold mb-2 flex items-center text-sm&quot;>
+                                <i class=&quot;fas fa-home mr-2 text-green-400&quot;></i>Domicile
+                            </h3>
+                            <div class=&quot;grid grid-cols-1 gap-2 max-h-40 overflow-y-auto&quot; id=&quot;home-teams&quot;></div>
+                        </div>
+                        <div>
+                            <h3 class=&quot;text-white font-semibold mb-2 flex items-center text-sm&quot;>
+                                <i class=&quot;fas fa-plane mr-2 text-blue-400&quot;></i>Extérieur
+                            </h3>
+                            <div class=&quot;grid grid-cols-1 gap-2 max-h-40 overflow-y-auto&quot; id=&quot;away-teams&quot;></div>
+                        </div>
+                    </div>
+                    
+                    <div class=&quot;mb-4&quot;>
+                        <h3 class=&quot;text-white font-semibold mb-3 text-center text-sm&quot;>
+                            <i class=&quot;fas fa-dice mr-2 text-yellow-400&quot;></i>Cotes Bookmaker
+                        </h3>
+                        <div class=&quot;grid grid-cols-3 gap-2&quot;>
+                            <div class=&quot;text-center&quot;>
+                                <label class=&quot;text-white text-xs mb-1 block font-medium&quot;>1</label>
+                                <input type=&quot;number&quot; id=&quot;odds-home&quot; class=&quot;odds-input w-full&quot; placeholder=&quot;2.50&quot; step=&quot;0.01&quot; min=&quot;1.01&quot; max=&quot;50&quot;>
+                            </div>
+                            <div class=&quot;text-center&quot;>
+                                <label class=&quot;text-white text-xs mb-1 block font-medium&quot;>X</label>
+                                <input type=&quot;number&quot; id=&quot;odds-draw&quot; class=&quot;odds-input w-full&quot; placeholder=&quot;3.20&quot; step=&quot;0.01&quot; min=&quot;1.01&quot; max=&quot;50&quot;>
+                            </div>
+                            <div class=&quot;text-center&quot;>
+                                <label class=&quot;text-white text-xs mb-1 block font-medium&quot;>2</label>
+                                <input type=&quot;number&quot; id=&quot;odds-away&quot; class=&quot;odds-input w-full&quot; placeholder=&quot;2.80&quot; step=&quot;0.01&quot; min=&quot;1.01&quot; max=&quot;50&quot;>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id=&quot;predict-btn&quot; class=&quot;w-full py-4 rounded-2xl font-bold text-xl text-white transition-all duration-300 transform hover:scale-105 shadow-2xl&quot; style=&quot;background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);&quot;>
+                        <i class=&quot;fas fa-magic mr-2&quot;></i>
+                        <span id=&quot;predict-text&quot;>ANALYSER</span>
+                    </button>
+                </div>
+                
+                <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                    <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                        <i class=&quot;fas fa-microchip mr-2&quot;></i>Résultats & Aperçu
+                    </h2>
+
+                    <div id=&quot;match-preview&quot; class=&quot;text-center mb-4 hidden&quot;>
+                        <div class=&quot;flex items-center justify-center space-x-2 mb-4&quot;>
+                            <div class=&quot;text-center flex-1&quot;>
+                                <div class=&quot;text-white font-bold text-md mb-1&quot; id=&quot;home-team-display&quot;>-</div>
+                            </div>
+                            <div class=&quot;match-vs&quot;>VS</div>
+                            <div class=&quot;text-center flex-1&quot;>
+                                <div class=&quot;text-white font-bold text-md mb-1&quot; id=&quot;away-team-display&quot;>-</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id=&quot;ai-processing&quot; class=&quot;text-center py-6 hidden&quot;>
+                        <div class=&quot;ai-brain text-5xl text-white mb-3&quot;>
+                            <i class=&quot;fas fa-brain&quot;></i>
+                        </div>
+                        <p class=&quot;text-white font-semibold&quot;>Analyse IA<span class=&quot;loading-dots&quot;></span></p>
+                    </div>
+                    
+                    <div id=&quot;predicted-score&quot; class=&quot;text-center mb-4 hidden&quot;>
+                        <div class=&quot;prediction-score text-white mb-2&quot;>
+                            <span id=&quot;score-home&quot;>0</span> - <span id=&quot;score-away&quot;>0</span>
+                        </div>
+                        <div class=&quot;text-white text-md font-semibold&quot;>Score Prédit par IA</div>
+                    </div>
+                    
+                    <div id=&quot;ai-confidence&quot; class=&quot;ai-confidence mb-4 hidden&quot;>
+                        <div class=&quot;neural-network&quot;></div>
+                        <div class=&quot;relative z-10&quot;>
+                            <h4 class=&quot;font-bold text-md mb-2 text-gray-800 text-center&quot;>
+                                <i class=&quot;fas fa-chart-line mr-2&quot;></i>Confiance IA
+                            </h4>
+                            <div class=&quot;text-center&quot;>
+                                <div class=&quot;text-4xl font-bold text-gray-800&quot; id=&quot;confidence-percentage&quot;>0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Tab -->
+        <div id=&quot;content-analysis&quot; class=&quot;tab-content hidden&quot;>
+            <div class=&quot;grid grid-cols-1 gap-6&quot;>
+                <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                    <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                        <i class=&quot;fas fa-chart-pie mr-2&quot;></i>Analyse Probabilités
+                    </h2>
+                    <div style=&quot;height: 250px;&quot;>
+                        <canvas id=&quot;probabilityChart&quot;></canvas>
+                    </div>
+                </div>
+                <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                    <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                        <i class=&quot;fas fa-balance-scale mr-2&quot;></i>Comparaison Performance
+                    </h2>
+                    <div style=&quot;height: 250px;&quot;>
+                        <canvas id=&quot;performanceChart&quot;></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Tab -->
+        <div id=&quot;content-stats&quot; class=&quot;tab-content hidden&quot;>
+            <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                    <i class=&quot;fas fa-trophy mr-2&quot;></i>Classement ENGLAND CHAMPIONSHIP
+                </h2>
+                <div class=&quot;overflow-x-auto text-xs&quot;>
+                    <table class=&quot;w-full text-white&quot;>
+                        <thead>
+                            <tr class=&quot;border-b-2 border-white border-opacity-30&quot;>
+                                <th class=&quot;py-2 px-1 text-left font-bold&quot;>#</th>
+                                <th class=&quot;py-2 px-1 text-left font-bold&quot;>Équipe</th>
+                                <th class=&quot;py-2 px-1 text-center font-bold&quot;>Pts</th>
+                                <th class=&quot;py-2 px-1 text-center font-bold&quot;>DB</th>
+                                <th class=&quot;py-2 px-1 text-center font-bold&quot;>Force</th>
+                            </tr>
+                        </thead>
+                        <tbody id=&quot;enhanced-standings-table&quot;></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id=&quot;content-history&quot; class=&quot;tab-content hidden&quot;>
+            <div class=&quot;glass-effect rounded-3xl p-4&quot;>
+                <h2 class=&quot;text-xl font-bold text-white mb-4 text-center&quot;>
+                    <i class=&quot;fas fa-history mr-2&quot;></i>Historique
+                </h2>
+                <div id=&quot;predictions-history&quot; class=&quot;space-y-3 max-h-96 overflow-y-auto&quot;>
+                    <div class=&quot;text-center text-white opacity-75 py-10&quot;>
+                        <div class=&quot;text-6xl mb-4&quot;><i class=&quot;fas fa-robot&quot;></i></div>
+                        <p class=&quot;text-md&quot;>Aucune prédiction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Updated team data for FC24 4X4 ENGLAND CHAMPIONSHIP
+        const teams = [
+            { name: &quot;Chelsea&quot;, position: 1, played: 38, wins: 29, draws: 3, losses: 6, goalsFor: 312, goalsAgainst: 223, goalDiff: 89, points: 90, homeWins: 15, homeDraw: 2, homeLoss: 2, awayWins: 14, awayDraw: 1, awayLoss: 4, recentForm: [1, 1, 1, 0, 1], attacking: 95, defending: 88, consistency: 92 },
+            { name: &quot;Brentford&quot;, position: 2, played: 38, wins: 24, draws: 3, losses: 11, goalsFor: 291, goalsAgainst: 239, goalDiff: 52, points: 75, homeWins: 13, homeDraw: 1, homeLoss: 5, awayWins: 11, awayDraw: 2, awayLoss: 6, recentForm: [1, 0, 1, 1, 1], attacking: 91, defending: 85, consistency: 88 },
+            { name: &quot;Newcastle United&quot;, position: 3, played: 38, wins: 23, draws: 4, losses: 11, goalsFor: 269, goalsAgainst: 221, goalDiff: 48, points: 73, homeWins: 12, homeDraw: 2, homeLoss: 5, awayWins: 11, awayDraw: 2, awayLoss: 6, recentForm: [1, 1, 0, 1, 0], attacking: 88, defending: 89, consistency: 85 },
+            { name: &quot;Liverpool&quot;, position: 4, played: 38, wins: 21, draws: 6, losses: 11, goalsFor: 283, goalsAgainst: 238, goalDiff: 45, points: 69, homeWins: 11, homeDraw: 4, homeLoss: 4, awayWins: 10, awayDraw: 2, awayLoss: 7, recentForm: [0, 1, 1, 1, 0], attacking: 90, defending: 82, consistency: 80 },
+            { name: &quot;Manchester United&quot;, position: 5, played: 38, wins: 20, draws: 2, losses: 16, goalsFor: 266, goalsAgainst: 245, goalDiff: 21, points: 62, homeWins: 11, homeDraw: 1, homeLoss: 7, awayWins: 9, awayDraw: 1, awayLoss: 9, recentForm: [1, 0, 1, 0, 1], attacking: 85, defending: 78, consistency: 75 },
+            { name: &quot;Fulham&quot;, position: 6, played: 38, wins: 20, draws: 2, losses: 16, goalsFor: 265, goalsAgainst: 254, goalDiff: 11, points: 62, homeWins: 10, homeDraw: 1, homeLoss: 8, awayWins: 10, awayDraw: 1, awayLoss: 8, recentForm: [1, 1, 1, 0, 0], attacking: 84, defending: 75, consistency: 74 },
+            { name: &quot;Arsenal&quot;, position: 7, played: 38, wins: 19, draws: 4, losses: 15, goalsFor: 294, goalsAgainst: 256, goalDiff: 38, points: 61, homeWins: 10, homeDraw: 2, homeLoss: 7, awayWins: 9, awayDraw: 2, awayLoss: 8, recentForm: [1, 0, 1, 1, 1], attacking: 92, defending: 74, consistency: 72 },
+            { name: &quot;Luton Town&quot;, position: 8, played: 38, wins: 17, draws: 4, losses: 17, goalsFor: 253, goalsAgainst: 267, goalDiff: -14, points: 55, homeWins: 9, homeDraw: 2, homeLoss: 8, awayWins: 8, awayDraw: 2, awayLoss: 9, recentForm: [1, 0, 1, 1, 0], attacking: 80, defending: 70, consistency: 68 },
+            { name: &quot;Aston Villa&quot;, position: 9, played: 38, wins: 16, draws: 6, losses: 16, goalsFor: 264, goalsAgainst: 244, goalDiff: 20, points: 54, homeWins: 9, homeDraw: 3, homeLoss: 7, awayWins: 7, awayDraw: 3, awayLoss: 9, recentForm: [0, 1, 0, 1, 1], attacking: 86, defending: 80, consistency: 65 },
+            { name: &quot;West Ham United&quot;, position: 10, played: 38, wins: 16, draws: 5, losses: 17, goalsFor: 256, goalsAgainst: 268, goalDiff: -12, points: 53, homeWins: 9, homeDraw: 2, homeLoss: 8, awayWins: 7, awayDraw: 3, awayLoss: 9, recentForm: [1, 0, 1, 0, 1], attacking: 82, defending: 68, consistency: 64 },
+            { name: &quot;Brighton & Hove Albion&quot;, position: 11, played: 38, wins: 16, draws: 4, losses: 18, goalsFor: 273, goalsAgainst: 284, goalDiff: -11, points: 52, homeWins: 9, homeDraw: 2, homeLoss: 8, awayWins: 7, awayDraw: 2, awayLoss: 10, recentForm: [1, 1, 0, 1, 0], attacking: 87, defending: 65, consistency: 61 },
+            { name: &quot;Manchester City&quot;, position: 12, played: 38, wins: 16, draws: 3, losses: 19, goalsFor: 260, goalsAgainst: 267, goalDiff: -7, points: 51, homeWins: 9, homeDraw: 1, homeLoss: 9, awayWins: 7, awayDraw: 2, awayLoss: 10, recentForm: [1, 1, 1, 0, 0], attacking: 83, defending: 71, consistency: 59 },
+            { name: &quot;Nottingham Forest&quot;, position: 13, played: 38, wins: 15, draws: 6, losses: 17, goalsFor: 265, goalsAgainst: 282, goalDiff: -17, points: 51, homeWins: 8, homeDraw: 3, homeLoss: 8, awayWins: 7, awayDraw: 3, awayLoss: 9, recentForm: [0, 1, 1, 0, 0], attacking: 84, defending: 66, consistency: 58 },
+            { name: &quot;Wolverhampton Wanderers&quot;, position: 14, played: 38, wins: 16, draws: 3, losses: 19, goalsFor: 247, goalsAgainst: 275, goalDiff: -28, points: 51, homeWins: 9, homeDraw: 1, homeLoss: 9, awayWins: 7, awayDraw: 2, awayLoss: 10, recentForm: [0, 0, 1, 1, 0], attacking: 78, defending: 68, consistency: 57 },
+            { name: &quot;Crystal Palace&quot;, position: 15, played: 38, wins: 14, draws: 4, losses: 20, goalsFor: 242, goalsAgainst: 263, goalDiff: -21, points: 46, homeWins: 8, homeDraw: 2, homeLoss: 9, awayWins: 6, awayDraw: 2, awayLoss: 11, recentForm: [0, 1, 0, 0, 1], attacking: 77, defending: 72, consistency: 56 },
+            { name: &quot;Sheffield United&quot;, position: 16, played: 38, wins: 12, draws: 8, losses: 18, goalsFor: 248, goalsAgainst: 282, goalDiff: -34, points: 44, homeWins: 7, homeDraw: 4, homeLoss: 8, awayWins: 5, awayDraw: 4, awayLoss: 10, recentForm: [1, 0, 0, 1, 0], attacking: 79, defending: 64, consistency: 54 },
+            { name: &quot;Everton&quot;, position: 17, played: 38, wins: 11, draws: 8, losses: 19, goalsFor: 244, goalsAgainst: 276, goalDiff: -32, points: 41, homeWins: 6, homeDraw: 4, homeLoss: 9, awayWins: 5, awayDraw: 4, awayLoss: 10, recentForm: [0, 0, 1, 0, 0], attacking: 75, defending: 69, consistency: 52 },
+            { name: &quot;Burnley&quot;, position: 18, played: 38, wins: 12, draws: 4, losses: 22, goalsFor: 239, goalsAgainst: 284, goalDiff: -45, points: 40, homeWins: 7, homeDraw: 2, homeLoss: 10, awayWins: 5, awayDraw: 2, awayLoss: 12, recentForm: [0, 0, 0, 1, 0], attacking: 74, defending: 62, consistency: 48 },
+            { name: &quot;Tottenham Hotspur&quot;, position: 19, played: 38, wins: 11, draws: 5, losses: 22, goalsFor: 266, goalsAgainst: 292, goalDiff: -26, points: 38, homeWins: 6, homeDraw: 3, homeLoss: 10, awayWins: 5, awayDraw: 2, awayLoss: 12, recentForm: [0, 0, 1, 0, 0], attacking: 85, defending: 60, consistency: 46 },
+            { name: &quot;Bournemouth&quot;, position: 20, played: 38, wins: 8, draws: 4, losses: 26, goalsFor: 238, goalsAgainst: 315, goalDiff: -77, points: 28, homeWins: 5, homeDraw: 2, homeLoss: 12, awayWins: 3, awayDraw: 2, awayLoss: 14, recentForm: [0, 0, 0, 1, 0], attacking: 72, defending: 55, consistency: 43 }
+        ];
+
+        let selectedHomeTeam = null;
+        let selectedAwayTeam = null;
+        let currentPrediction = null;
+        let predictionHistory = [];
+        let probabilityChart = null;
+        let performanceChart = null;
+
+        class EnhancedFootballAI {
+            constructor() {
+                this.weights = { position: 0.20, recentForm: 0.15, homeAdvantage: 0.10, goalsScored: 0.12, goalsConceded: 0.08, consistency: 0.05, oddsInfluence: 0.30 };
+                this.scoringPatterns = { 
+                    highFavorite: { homeRange: [7, 11], awayRange: [3, 6], drawProb: 0.10 }, 
+                    favorite: { homeRange: [6, 9], awayRange: [4, 7], drawProb: 0.15 }, 
+                    moderate: { homeRange: [5, 8], awayRange: [5, 8], drawProb: 0.20 }, 
+                    balanced: { homeRange: [5, 7], awayRange: [5, 7], drawProb: 0.25 }, 
+                    underdog: { homeRange: [4, 6], awayRange: [7, 10], drawProb: 0.18 } 
+                };
+            }
+            
+            // NEW HELPER FUNCTION for more realistic score generation
+            probabilisticRound(value) {
+                const floor = Math.floor(value);
+                const decimal = value - floor;
+                return floor + (Math.random() < decimal ? 1 : 0);
+            }
+
+            calculateOddsProbabilities(oddsHome, oddsDraw, oddsAway) { 
+                const probHome = 1 / oddsHome; 
+                const probDraw = 1 / oddsDraw; 
+                const probAway = 1 / oddsAway; 
+                const total = probHome + probDraw + probAway; 
+                return { 
+                    home: (probHome / total) * 100, 
+                    draw: (probDraw / total) * 100, 
+                    away: (probAway / total) * 100, 
+                    margin: ((total - 1) * 100) 
+                }; 
+            }
+            
+            getOddsCategory(odds) { 
+                if (odds < 1.5) return 'highFavorite'; 
+                if (odds < 2.0) return 'favorite'; 
+                if (odds < 3.0) return 'moderate'; 
+                if (odds < 4.0) return 'balanced'; 
+                return 'underdog'; 
+            }
+            
+            calculateTeamStrength(team, isHome = false) { 
+                const positionStrength = (21 - team.position) / 20; 
+                const formScore = team.recentForm.reduce((sum, result) => sum + result, 0) / 5; 
+                let strength = (positionStrength * this.weights.position + formScore * this.weights.recentForm + (team.attacking / 100) * this.weights.goalsScored + (team.defending / 100) * this.weights.goalsConceded + (team.consistency / 100) * this.weights.consistency); 
+                if (isHome) { 
+                    strength += (team.homeWins / (team.homeWins + team.homeDraw + team.homeLoss)) * this.weights.homeAdvantage; 
+                } 
+                return Math.max(0.1, Math.min(1.0, strength)); 
+            }
+            
+            // UPDATED PREDICTION LOGIC
+            predictMatchWithOddsIntegration(homeTeam, awayTeam, oddsHome, oddsDraw, oddsAway) { 
+                const homeStrength = this.calculateTeamStrength(homeTeam, true); 
+                const awayStrength = this.calculateTeamStrength(awayTeam, false); 
+                const oddsProbabilities = this.calculateOddsProbabilities(oddsHome, oddsDraw, oddsAway); 
+                
+                // NEW: 'Match Rhythm' factor to simulate game flow (0.9 to 1.1 multiplier)
+                const matchRhythm = 1 + (Math.random() - 0.5) * 0.2;
+
+                const baseHomeGoals = this.calculateBaseExpectedGoals(homeTeam, awayTeam, true) * matchRhythm; 
+                const baseAwayGoals = this.calculateBaseExpectedGoals(awayTeam, homeTeam, false) * matchRhythm; 
+                
+                const oddsAdjustmentFactor = 0.7; 
+                const homeOddsMultiplier = 1 + ((100 - oddsProbabilities.home) / 100 - 0.5) * oddsAdjustmentFactor; 
+                const awayOddsMultiplier = 1 + ((100 - oddsProbabilities.away) / 100 - 0.5) * oddsAdjustmentFactor; 
+                
+                let adjustedHomeGoals = baseHomeGoals * homeOddsMultiplier; 
+                let adjustedAwayGoals = baseAwayGoals * awayOddsMultiplier; 
+                
+                const pattern = this.getScoringPattern(oddsHome, oddsAway, oddsDraw); 
+                adjustedHomeGoals = this.applyPatternToGoals(adjustedHomeGoals, pattern.homeRange); 
+                adjustedAwayGoals = this.applyPatternToGoals(adjustedAwayGoals, pattern.awayRange); 
+                
+                // UPDATED: Use probabilistic rounding for more varied and realistic scores
+                let homeScore = this.probabilisticRound(adjustedHomeGoals); 
+                let awayScore = this.probabilisticRound(adjustedAwayGoals); 
+                
+                // UPDATED: More dynamic draw logic based on expected goals
+                if (oddsProbabilities.draw > 30 && Math.random() < 0.75) { // 75% chance to force a draw if odds are high
+                    const avgGoals = this.probabilisticRound((adjustedHomeGoals + adjustedAwayGoals) / 2);
+                    homeScore = avgGoals; 
+                    awayScore = avgGoals; 
+                } 
+                
+                homeScore = Math.max(0, Math.min(15, homeScore)); 
+                awayScore = Math.max(0, Math.min(15, awayScore)); 
+                
+                const confidence = this.calculateOddsBasedConfidence(homeStrength, awayStrength, oddsProbabilities, homeScore, awayScore); 
+                return { homeScore, awayScore, confidence, oddsProbabilities }; 
+            }
+            
+            calculateBaseExpectedGoals(team, opponent, isHome) { 
+                const leagueAvg = isHome ? 7.5 : 6.5; 
+                const attackStrength = (team.goalsFor / team.played) / leagueAvg; 
+                const opponentDefenseStrength = (opponent.goalsAgainst / opponent.played) / leagueAvg; 
+                return leagueAvg * attackStrength * opponentDefenseStrength; 
+            }
+            
+            getScoringPattern(oddsHome, oddsAway, oddsDraw) { 
+                const homeCategory = this.getOddsCategory(oddsHome); 
+                const awayCategory = this.getOddsCategory(oddsAway); 
+                if (oddsHome < oddsAway) { 
+                    return this.scoringPatterns[homeCategory]; 
+                } else if (oddsAway < oddsHome) { 
+                    return { 
+                        homeRange: this.scoringPatterns[awayCategory].awayRange, 
+                        awayRange: this.scoringPatterns[awayCategory].homeRange, 
+                        drawProb: this.scoringPatterns[awayCategory].drawProb 
+                    }; 
+                } else { 
+                    return this.scoringPatterns.balanced; 
+                } 
+            }
+            
+            applyPatternToGoals(baseGoals, range) { 
+                const [min, max] = range; 
+                return Math.min(max, Math.max(min, baseGoals)); 
+            }
+            
+            calculateOddsBasedConfidence(homeStrength, awayStrength, oddsProbabilities, homeScore, awayScore) { 
+                const strengthDiff = Math.abs(homeStrength - awayStrength); 
+                let baseConfidence = 60 + (strengthDiff * 30); 
+                const predictedOutcome = homeScore > awayScore ? 'home' : awayScore > homeScore ? 'away' : 'draw'; 
+                const outcomeProb = oddsProbabilities[predictedOutcome]; 
+                const consistencyBonus = outcomeProb / 100 * 20; 
+                const marginPenalty = oddsProbabilities.margin * 0.3; 
+                return Math.min(95, Math.max(55, baseConfidence + consistencyBonus - marginPenalty)); 
+            }
+        }
+
+        const enhancedAI = new EnhancedFootballAI();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            populateTeams();
+            populateEnhancedStandings();
+            setupEventListeners();
+            initializeCharts();
+        });
+
+        function populateTeams() {
+            const homeTeamsContainer = document.getElementById('home-teams');
+            const awayTeamsContainer = document.getElementById('away-teams');
+            teams.forEach(team => {
+                homeTeamsContainer.appendChild(createEnhancedTeamCard(team, 'home'));
+                awayTeamsContainer.appendChild(createEnhancedTeamCard(team, 'away'));
+            });
+        }
+
+        function createEnhancedTeamCard(team, type) {
+            const card = document.createElement('div');
+            card.className = 'team-card bg-white bg-opacity-20 rounded-lg p-2 text-white cursor-pointer transition-all duration-300 text-xs';
+            card.innerHTML = `<div class=&quot;font-semibold truncate&quot;>${team.name}</div><div class=&quot;opacity-75&quot;>#${team.position} - ${team.points}pts</div>`;
+            card.addEventListener('click', () => selectTeam(team, type, card));
+            return card;
+        }
+
+        function selectTeam(team, type, cardElement) {
+            const containerId = type === 'home' ? '#home-teams' : '#away-teams';
+            document.querySelectorAll(`${containerId} .team-card`).forEach(card => card.classList.remove('selected'));
+            if (type === 'home') selectedHomeTeam = team; 
+            else selectedAwayTeam = team;
+            cardElement.classList.add('selected');
+            updateMatchPreview();
+        }
+
+        function updateMatchPreview() {
+            if (selectedHomeTeam && selectedAwayTeam) {
+                document.getElementById('match-preview').classList.remove('hidden');
+                document.getElementById('home-team-display').textContent = selectedHomeTeam.name;
+                document.getElementById('away-team-display').textContent = selectedAwayTeam.name;
+            }
+        }
+
+        function populateEnhancedStandings() {
+            const tbody = document.getElementById('enhanced-standings-table');
+            teams.forEach(team => {
+                const strength = enhancedAI.calculateTeamStrength(team);
+                const row = document.createElement('tr');
+                row.className = 'border-b border-white border-opacity-10';
+                row.innerHTML = `<td class=&quot;py-2 px-1 font-bold text-yellow-300&quot;>${team.position}</td><td class=&quot;py-2 px-1 font-semibold truncate&quot;>${team.name}</td><td class=&quot;py-2 px-1 text-center font-bold text-yellow-300&quot;>${team.points}</td><td class=&quot;py-2 px-1 text-center ${team.goalDiff >= 0 ? 'text-green-400' : 'text-red-400'}&quot;>${team.goalDiff}</td><td class=&quot;py-2 px-1 text-center font-bold text-purple-300&quot;>${(strength * 100).toFixed(0)}%</td>`;
+                tbody.appendChild(row);
+            });
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('[id^=&quot;tab-&quot;]').forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.id.split('-')[1]));
+            });
+            document.getElementById('predict-btn').addEventListener('click', makeEnhancedAIPrediction);
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.querySelectorAll('[id^=&quot;tab-&quot;]').forEach(tab => tab.classList.remove('tab-active'));
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('tab-active');
+            if (tabName === 'analysis' && currentPrediction) updateAnalysisCharts();
+        }
+
+        function makeEnhancedAIPrediction() {
+            if (!selectedHomeTeam || !selectedAwayTeam) { 
+                alert('⚠️ Veuillez sélectionner les deux équipes.'); 
+                return; 
+            }
+            if (selectedHomeTeam.name === selectedAwayTeam.name) { 
+                alert('⚠️ Une équipe ne peut pas jouer contre elle-même.'); 
+                return; 
+            }
+            const oddsHome = parseFloat(document.getElementById('odds-home').value);
+            const oddsDraw = parseFloat(document.getElementById('odds-draw').value);
+            const oddsAway = parseFloat(document.getElementById('odds-away').value);
+            if (!oddsHome || !oddsDraw || !oddsAway || oddsHome < 1.01 || oddsDraw < 1.01 || oddsAway < 1.01) { 
+                alert('⚠️ Veuillez saisir des cotes valides (minimum 1.01).'); 
+                return; 
+            }
+            
+            showAIProcessing();
+            setTimeout(() => {
+                const prediction = enhancedAI.predictMatchWithOddsIntegration(selectedHomeTeam, selectedAwayTeam, oddsHome, oddsDraw, oddsAway);
+                currentPrediction = { 
+                    ...prediction, 
+                    homeTeam: selectedHomeTeam.name, 
+                    awayTeam: selectedAwayTeam.name, 
+                    timestamp: new Date(), 
+                    odds: { home: oddsHome, draw: oddsDraw, away: oddsAway } 
+                };
+                displayEnhancedPredictionResults(currentPrediction);
+                savePredictionToHistory(currentPrediction);
+                hideAIProcessing();
+            }, 2000);
+        }
+
+        function showAIProcessing() {
+            document.getElementById('predict-btn').disabled = true;
+            document.getElementById('ai-processing').classList.remove('hidden');
+            document.getElementById('predicted-score').classList.add('hidden');
+            document.getElementById('ai-confidence').classList.add('hidden');
+        }
+
+        function hideAIProcessing() {
+            document.getElementById('predict-btn').disabled = false;
+            document.getElementById('ai-processing').classList.add('hidden');
+        }
+
+        function displayEnhancedPredictionResults(prediction) {
+            document.getElementById('predicted-score').classList.remove('hidden');
+            document.getElementById('ai-confidence').classList.remove('hidden');
+            document.getElementById('score-home').textContent = prediction.homeScore;
+            document.getElementById('score-away').textContent = prediction.awayScore;
+            document.getElementById('confidence-percentage').textContent = `${Math.round(prediction.confidence)}%`;
+        }
+
+        function savePredictionToHistory(prediction) {
+            predictionHistory.unshift(prediction);
+            if (predictionHistory.length > 5) predictionHistory.pop();
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('predictions-history');
+            if (predictionHistory.length === 0) return;
+            historyContainer.innerHTML = '';
+            predictionHistory.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'glass-effect rounded-xl p-3 text-white text-xs';
+                item.innerHTML = `<div class=&quot;flex justify-between items-center&quot;><div class=&quot;font-bold&quot;>${p.homeTeam} vs ${p.awayTeam}</div><div class=&quot;font-bold text-lg&quot;>${p.homeScore} - ${p.awayScore}</div></div><div class=&quot;text-right opacity-75 mt-1&quot;>Confiance: ${Math.round(p.confidence)}%</div>`;
+                historyContainer.appendChild(item);
+            });
+        }
+
+        function initializeCharts() {
+            const commonOptions = { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    legend: { 
+                        labels: { 
+                            color: 'white', 
+                            font: { size: 10 } 
+                        } 
+                    } 
+                } 
+            };
+            
+            probabilityChart = new Chart(document.getElementById('probabilityChart').getContext('2d'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ['Domicile', 'Nul', 'Extérieur'], 
+                    datasets: [{ 
+                        data: [0, 0, 0], 
+                        backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(234, 179, 8, 0.8)', 'rgba(59, 130, 246, 0.8)'], 
+                        borderWidth: 1 
+                    }] 
+                }, 
+                options: commonOptions 
+            });
+            
+            performanceChart = new Chart(document.getElementById('performanceChart').getContext('2d'), { 
+                type: 'radar', 
+                data: { 
+                    labels: ['Att', 'Déf', 'Forme', 'Dom', 'Const'], 
+                    datasets: [
+                        { 
+                            label: 'Domicile', 
+                            data: [0,0,0,0,0], 
+                            borderColor: 'rgba(34, 197, 94, 1)', 
+                            backgroundColor: 'rgba(34, 197, 94, 0.2)' 
+                        }, 
+                        { 
+                            label: 'Extérieur', 
+                            data: [0,0,0,0,0], 
+                            borderColor: 'rgba(59, 130, 246, 1)', 
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)' 
+                        }
+                    ] 
+                }, 
+                options: { 
+                    ...commonOptions, 
+                    scales: { 
+                        r: { 
+                            beginAtZero: true, 
+                            max: 100, 
+                            ticks: { display: false }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.2)' }, 
+                            pointLabels: { color: 'white', font: { size: 10 } } 
+                        } 
+                    } 
+                } 
+            });
+        }
+
+        function updateAnalysisCharts() {
+            if (!currentPrediction) return;
+            
+            probabilityChart.data.datasets[0].data = [
+                currentPrediction.oddsProbabilities.home, 
+                currentPrediction.oddsProbabilities.draw, 
+                currentPrediction.oddsProbabilities.away
+            ];
+            probabilityChart.update();
+            
+            const homeTeam = teams.find(t => t.name === currentPrediction.homeTeam);
+            const awayTeam = teams.find(t => t.name === currentPrediction.awayTeam);
+            
+            performanceChart.data.datasets[0].data = [
+                homeTeam.attacking, 
+                homeTeam.defending, 
+                homeTeam.recentForm.reduce((s,r)=>s+r,0)*20, 
+                (homeTeam.homeWins/19)*100, 
+                homeTeam.consistency
+            ];
+            performanceChart.data.datasets[1].data = [
+                awayTeam.attacking, 
+                awayTeam.defending, 
+                awayTeam.recentForm.reduce((s,r)=>s+r,0)*20, 
+                60, 
+                awayTeam.consistency
+            ];
+            performanceChart.update();
+        }
+    </script>
+</body>
+</html>
+            "></iframe>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
